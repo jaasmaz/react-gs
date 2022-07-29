@@ -1,23 +1,70 @@
-import logo from './logo.svg';
+import { useRef } from 'react';
 import './App.css';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
-function App() {
+function App(props) {
+  const gridRef = useRef();
+  function onGridReady() {
+    gridRef.current?.api.showLoadingOverlay();
+  }
+
+  const columnDefs = [
+    {
+      headerName: 'Make',
+      field: 'make',
+      sortable: true,
+      filter: true,
+      checkboxSelection: true,
+    },
+    {
+      headerName: 'Model',
+      field: 'model',
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: 'Price',
+      field: 'price',
+      sortable: true,
+      filter: true,
+    },
+  ];
+
+  const rowData = [
+    {
+      make: 'Toyota',
+      model: 'Celica',
+      price: 35000,
+    },
+    {
+      make: 'Ford',
+      model: 'Mondeo',
+      price: 32000,
+    },
+    {
+      make: 'Porsche',
+      model: 'Boxter',
+      price: 72000,
+    },
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className='ag-theme-balham'
+      style={{
+        height: '500px',
+        width: '600px',
+      }}
+    >
+      <AgGridReact
+        onGridReady={onGridReady}
+        columnDefs={columnDefs}
+        rowData={rowData}
+        tooltipShowDelay={0}
+        tooltipHideDelay={2000}
+      ></AgGridReact>
     </div>
   );
 }
