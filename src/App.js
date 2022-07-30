@@ -1,52 +1,70 @@
-import { useRef } from 'react';
-import './App.css';
+import { useState, useEffect, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
 function App(props) {
+  const [rowData, setRowData] = useState([]);
+  const [gridApi, setGridApi] = useState('');
+  const [colApi, setColApi] = useState('');
+  const [modelVisibility, setModelVisibility] = useState(true);
+
   const gridRef = useRef();
-  function onGridReady() {
+
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setColApi(params.columnApi);
     gridRef.current?.api.showLoadingOverlay();
-  }
+  };
+
+  useEffect(() => {
+    fetch('https://gorest.co.in/public/v1/users')
+      .then((result) => result.json())
+      .then((rowData) => setRowData(rowData.data));
+  }, []);
+
+  useEffect(() => {
+    if (colApi) {
+      colApi.setColumnVisible('id', modelVisibility);
+    }
+  }, [modelVisibility]);
+
+  const toggleModelVis = () => {
+    setModelVisibility(!modelVisibility);
+  };
+
+  const onButtonClick = () => {
+    const selectedNodes = gridApi.getSelectedNodes();
+    const selectedData = selectedNodes.map((node) => node.data);
+    console.log(selectedData);
+  };
 
   const columnDefs = [
     {
-      headerName: 'Make',
-      field: 'make',
+      headerName: 'Id',
+      field: 'id',
       sortable: true,
       filter: true,
       checkboxSelection: true,
     },
     {
-      headerName: 'Model',
-      field: 'model',
+      headerName: 'Name',
+      field: 'name',
       sortable: true,
       filter: true,
     },
     {
-      headerName: 'Price',
-      field: 'price',
+      headerName: 'Gender',
+      field: 'gender',
       sortable: true,
       filter: true,
     },
-  ];
-
-  const rowData = [
     {
-      make: 'Toyota',
-      model: 'Celica',
-      price: 35000,
-    },
-    {
-      make: 'Ford',
-      model: 'Mondeo',
-      price: 32000,
-    },
-    {
-      make: 'Porsche',
-      model: 'Boxter',
-      price: 72000,
+      headerName: 'Email',
+      field: 'email',
+      sortable: true,
+      filter: true,
     },
   ];
 
@@ -58,13 +76,22 @@ function App(props) {
         width: '600px',
       }}
     >
-      <AgGridReact
-        onGridReady={onGridReady}
-        columnDefs={columnDefs}
-        rowData={rowData}
-        tooltipShowDelay={0}
-        tooltipHideDelay={2000}
-      ></AgGridReact>
+      <button type='button' onClick={onButtonClick}>
+        Get Nodes
+      </button>
+      <button type='button' onClick={toggleModelVis}>
+        Toggle Model Column
+      </button>
+      {rowData.length && (
+        <AgGridReact
+          onGridReady={onGridReady}
+          rowSelection='multiple'
+          columnDefs={columnDefs}
+          rowData={rowData}
+          tooltipShowDelay={0}
+          tooltipHideDelay={2000}
+        ></AgGridReact>
+      )}
     </div>
   );
 }
