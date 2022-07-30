@@ -61,8 +61,8 @@ function App(props) {
       filter: true,
     },
     {
-      headerName: 'Email',
-      field: 'email',
+      headerName: 'Contact',
+      valueGetter: ({ data }) => `${data.email}, #916-999-9999`,
       sortable: true,
       filter: true,
     },
