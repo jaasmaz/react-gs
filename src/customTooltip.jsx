@@ -5,20 +5,21 @@ export default (props) => {
     () => props.api.getDisplayedRowAtIndex(props.rowIndex).data,
     []
   );
+  console.log(data);
 
   return (
     <div
       className='custom-tooltip'
-      style={{ backgroundColor: props.color || 'white' }}
+      style={{ backgroundColor: props.color || 'white', width: 'fit-content' }}
     >
       <p>
-        <span>{data.athlete}</span>
+        <span>{data.name}</span>
       </p>
       <p>
-        <span>Country: </span> {data.country}
+        <span>Email: </span> {data.email}
       </p>
       <p>
-        <span>Total: </span> {data.total}
+        <span>Status: </span> {data.status}
       </p>
     </div>
   );

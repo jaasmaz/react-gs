@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import CustomTooltip from './customTooltip';
 import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
@@ -40,6 +41,18 @@ function App(props) {
     console.log(selectedData);
   };
 
+  const defaultColDef = useMemo(() => {
+    return {
+      editable: true,
+      sortable: true,
+      flex: 1,
+      minWidth: 100,
+      filter: true,
+      resizable: true,
+      tooltipComponent: CustomTooltip,
+    };
+  }, []);
+
   const columnDefs = [
     {
       headerName: 'Id',
@@ -47,6 +60,8 @@ function App(props) {
       sortable: true,
       filter: true,
       checkboxSelection: true,
+      tooltipField: 'id',
+      tooltipComponentParams: { color: '#ececec' },
     },
     {
       headerName: 'Name',
@@ -86,10 +101,11 @@ function App(props) {
         <AgGridReact
           onGridReady={onGridReady}
           rowSelection='multiple'
+          defaultColDef={defaultColDef}
           columnDefs={columnDefs}
           rowData={rowData}
           tooltipShowDelay={0}
-          tooltipHideDelay={2000}
+          tooltipHideDelay={200}
         ></AgGridReact>
       )}
     </div>
