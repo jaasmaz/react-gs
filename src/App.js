@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import CustomTooltip from './customTooltip';
+import GenderField from './genderField';
 import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
@@ -12,7 +13,9 @@ function App(props) {
   const [modelVisibility, setModelVisibility] = useState(true);
 
   const gridRef = useRef();
-
+  const frameworkComponents = {
+    genderField: GenderField,
+  };
   const onGridReady = (params) => {
     setGridApi(params.api);
     setColApi(params.columnApi);
@@ -72,8 +75,7 @@ function App(props) {
     {
       headerName: 'Gender',
       field: 'gender',
-      sortable: true,
-      filter: true,
+      cellRenderer: 'genderField',
     },
     {
       headerName: 'Contact',
@@ -124,7 +126,8 @@ function App(props) {
           columnDefs={columnDefs}
           rowData={rowData}
           tooltipShowDelay={0}
-          tooltipHideDelay={200}
+          tooltipHideDelay={2000}
+          frameworkComponents={frameworkComponents}
         ></AgGridReact>
       )}
     </div>
