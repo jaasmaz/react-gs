@@ -81,6 +81,25 @@ function App(props) {
       sortable: true,
       filter: true,
     },
+    {
+      headerName: 'Status',
+      field: 'status',
+      width: 100,
+      cellRenderer: ({ value }) => {
+        return (
+          <div
+            style={{
+              backgroundColor: 'green',
+              color: 'white',
+              borderRadius: '5px',
+              textAlign: 'center',
+            }}
+          >
+            <span>{value}</span>
+          </div>
+        );
+      },
+    },
   ];
 
   return (
