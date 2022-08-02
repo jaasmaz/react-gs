@@ -19,7 +19,6 @@ function App(props) {
   const onGridReady = (params) => {
     setGridApi(params.api);
     setColApi(params.columnApi);
-    gridRef.current?.api.showLoadingOverlay();
   };
 
   useEffect(() => {
@@ -42,6 +41,10 @@ function App(props) {
     const selectedNodes = gridApi.getSelectedNodes();
     const selectedData = selectedNodes.map((node) => node.data);
     console.log(selectedData);
+  };
+
+  const onBtnExport = () => {
+    gridRef.current?.api.exportDataAsCsv();
   };
 
   const defaultColDef = useMemo(() => {
@@ -118,8 +121,12 @@ function App(props) {
       <button type='button' onClick={toggleModelVis}>
         Toggle Model Column
       </button>
+      <button type='button' onClick={onBtnExport}>
+        Download CSV export file
+      </button>
       {rowData.length && (
         <AgGridReact
+          ref={gridRef}
           onGridReady={onGridReady}
           rowSelection='multiple'
           defaultColDef={defaultColDef}
