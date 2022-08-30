@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-export default (props) => {
+export default (props: any) => {
   const data = useMemo(
     () => props.api.getDisplayedRowAtIndex(props.rowIndex).data,
     []

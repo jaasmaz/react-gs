@@ -1,4 +1,4 @@
-export default (props) => {
+export default (props: any) => {
   const value = props.value;
   const rowIndex = props.rowIndex;
   return (

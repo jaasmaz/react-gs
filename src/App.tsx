@@ -6,17 +6,17 @@ import './App.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
-function App(props) {
+function App(props: any) {
   const [rowData, setRowData] = useState([]);
-  const [gridApi, setGridApi] = useState('');
-  const [colApi, setColApi] = useState('');
+  const [gridApi, setGridApi] = useState<any>('');
+  const [colApi, setColApi] = useState<any>('');
   const [modelVisibility, setModelVisibility] = useState(true);
 
-  const gridRef = useRef();
+  const gridRef: any = useRef();
   const frameworkComponents = {
     genderField: GenderField,
   };
-  const onGridReady = (params) => {
+  const onGridReady = (params: any) => {
     setGridApi(params.api);
     setColApi(params.columnApi);
   };
@@ -39,7 +39,7 @@ function App(props) {
 
   const onButtonClick = () => {
     const selectedNodes = gridApi.getSelectedNodes();
-    const selectedData = selectedNodes.map((node) => node.data);
+    const selectedData = selectedNodes.map((node: any) => node.data);
     console.log(selectedData);
   };
 
@@ -82,7 +82,7 @@ function App(props) {
     },
     {
       headerName: 'Contact',
-      valueGetter: ({ data }) => `${data.email}, #916-999-9999`,
+      valueGetter: ({ data }: any) => `${data.email}, #916-999-9999`,
       sortable: true,
       filter: true,
     },
@@ -90,7 +90,7 @@ function App(props) {
       headerName: 'Status',
       field: 'status',
       width: 100,
-      cellRenderer: ({ value }) => {
+      cellRenderer: ({ value }: any) => {
         return (
           <div
             style={{
